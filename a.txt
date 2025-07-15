@@ -1,0 +1,12 @@
+hadoop
+
+机器学习：spark，flink
+流数据：spark（伪流数据）flink--kafka
+数仓hbase
+
+
+可视化finebi，echarts
+hive和hbase链接，finebi和hive链接，hive2.0-2.3
+数据清洗，ETL，sqoop
+hive：数据仓库，离线数据，数据的历史状态
+hbase：数据库，实时数据，当前的数据
