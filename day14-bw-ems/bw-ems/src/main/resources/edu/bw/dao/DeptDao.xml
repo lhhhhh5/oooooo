@@ -1,0 +1,104 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.bw.dao.DeptDao">
+
+
+
+    <select id="selectDeptByCondition" parameterType="edu.bw.dto.SelectDeptByConditionForm" resultType="java.util.HashMap">
+        SELECT d.id,d.dept_name AS deptName,d.tel,d.email,d.desc,COUNT(u.id) AS emps
+        FROM bw_zzy_dept d LEFT JOIN bw_zzy_users u ON d.id=u.dept_id AND u.status=1
+        WHERE 1=1
+          <if test="deptName!=null and deptName!=''">
+              AND d.dept_name LIKE #{deptName}
+          </if>
+        GROUP BY d.id
+        LIMIT #{start},#{length};
+    </select>
+
+    <select id="selectDeptByConditionCount" resultType="Long" parameterType="selectDeptByConditionForm">
+        SELECT COUNT(*)
+        FROM (
+            SELECT d.id
+            FROM bw_zzy_dept d
+            LEFT JOIN bw_zzy_users u ON d.id=u.dept_id
+            AND u.status = 1
+            WHERE 1=1
+              <if test="deptName!=null and deptName!=''">
+                  AND d.dept_name LIKE #{deptName}
+              </if>
+
+            GROUP BY d.id
+             )
+        AS temp
+    </select>
+
+
+    <insert id="insert" parameterType="dept">
+        INSERT INTO bw_zzy_dept
+         <set>
+            <if test="deptName!=null and deptName!=''">
+                ,dept_name=#{deptName}
+            </if>
+            <if test="tel!=null and tel!=''">
+                ,tel=#{tel}
+            </if>
+            <if test="email!=null and email!=''">
+                ,email=#{email}
+            </if>
+            <if test="desc!=null and desc!=''">
+                ,`desc`=#{desc}
+            </if>
+         </set>
+    </insert>
+
+    <select id="selectById" resultType="Hashmap" parameterType="Integer">
+        SELECT id,dept_name AS deptName , tel,email,`desc`
+        FROM bw_zzy_dept
+        WHERE id=#{id}
+    </select>
+
+
+    <select id="selectCanDelete" resultType="java.lang.Boolean" parameterType="java.util.List" >
+        SELECT IF(SUM(temp.users)>0,FALSE,TRUE) AS result FROM (
+            SELECT COUNT(u.id) AS users FROM  bw_zzy_dept d
+                           INNER JOIN bw_zzy_users u ON d.id =u.dept_id
+                                                     WHERE d.id IN
+                                                     <foreach collection="list" open="(" close=")" separator="," item="id">
+                                                         #{id}
+                                                     </foreach>
+                                                     GROUP BY d.id
+                              )
+        temp
+    </select>
+    <select id="selectAllDept" resultType="java.util.Map">
+        SELECT id,dept_name AS deptName ,tel,email,`desc`
+        FROM bw_zzy_dept ORDER BY id;
+    </select>
+    <delete id="deleteDeptByIds" parameterType="java.util.List">
+        DELETE FROM bw_zzy_dept WHERE id IN
+                                <foreach collection="list" item="id" separator="," close=")" open="(">
+                                    #{id}
+                                </foreach>
+    </delete>
+
+    <update id="update" parameterType="updateDeptForm" >
+        UPDATE bw_zzy_dept
+        <set>
+            <if test="deptName!=null and deptName!=''">
+                dept_name=#{deptName}
+            </if>
+            <if test="tel!=null and tel!=''">
+                ,tel=#{tel}
+            </if>
+            <if test="email!=null and email!=''">
+                ,email =#{email}
+            </if>
+            <if test="desc!=null and desc!=''">
+                ,`desc`=#{desc}
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+</mapper>

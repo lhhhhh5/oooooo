@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.bw.dao.PermissionDao">
+    <select id="selectAllPermission" resultType="hashmap">
+        SELECT p.id ,
+               m.module_name AS moduleName,
+               a.action_name AS actionName
+               FROM bw_zzy_permission p
+        INNER JOIN bw_zzy_module m ON p.module_id = m.id
+        INNER JOIN bw_zzy_action a ON p.action_id = a.id
+        ORDER BY p.module_id,p.action_id
+    </select>
+</mapper>

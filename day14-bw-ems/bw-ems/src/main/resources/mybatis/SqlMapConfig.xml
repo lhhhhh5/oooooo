@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <!--properties标签可以加载properties配置文件-->
+    <!--resource属性:指明配置文件路径-->
+   <!-- <properties resource="db.properties"/>-->
+
+    <settings>
+        <!--开启自动映射 例如: 数据库的 price 会被自动映射为 price属性-->
+        <setting name="autoMappingBehavior" value="FULL"/>
+
+        <!--开启驼峰命名转换 例如: 数据库的 user_id 会被自动映射为 userId属性-->
+        <setting name="mapUnderscoreToCamelCase" value="true"/>
+
+        <!--全局延迟加载配置-->
+        <setting name="lazyLoadingEnabled" value="true"/>
+        <!--<setting name="aggressiveLazyLoading" value="false"/>-->
+    </settings>
+
+    <!--   在typleAliases标签中可以配置多个类型的别名
+       type:原始类型
+       alias: 别名(我们一般针对包名.类名 起别名为 类名)-->
+    <!--<typeAliases>-->
+    <!--    &lt;!&ndash;-->
+    <!--    批量自动定义别名,自动扫描指定包下的类,然后自动起一个别名(类名)-->
+    <!--    &ndash;&gt;-->
+    <!--    <package name="edu.bw.po"/>-->
+    <!--    <package name="edu.bw.vo"/>-->
+    <!--</typeAliases>-->
+
+<!--    <environments default="development">
+        <environment id="development">
+            &lt;!&ndash;使用JDBC事务管理&ndash;&gt;
+            <transactionManager type="JDBC"/>
+
+            &lt;!&ndash;数据库连接池&ndash;&gt;
+            <dataSource type="POOLED">
+                <property name="driver" value="${jdbc.driver}"/>
+                <property name="url"
+                          value="${jdbc.url}"/>
+                <property name="username" value="${jdbc.username}"/>
+                <property name="password" value="${jdbc.password}"/>
+            </dataSource>
+        </environment>
+    </environments>-->
+
+    <!--加载映射配置文件-->
+  <!--  <mappers>
+        &lt;!&ndash;指定mapper接口所在包,要求映射配置文件所在的包必须和mapper接口所在的包保持一致&ndash;&gt;
+        <package name="edu.bw.mapper"/>
+    </mappers>-->
+</configuration>

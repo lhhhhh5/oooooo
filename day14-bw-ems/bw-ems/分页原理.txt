@@ -1,0 +1,31 @@
+MySQL数据库实现分页(主要利用limit关键字)
+1.分页相关的sql语句
+# SELECT * FROM bw_zzy_users LIMIT 起始索引,查询条数
+# 起始索引 从0开始
+SELECT * FROM bw_zzy_users LIMIT 0,3
+
+
+2.分页相关的参数
+利用bw_zzy_users (共有10条数据,每页显示3条数据)
+
+currentPage(当前页)   beginIndex(起始索引)  pageSize(每页显示条数)       sql语句
+    1                       0                  3                  SELECT * FROM bw_zzy_users LIMIT 0,3
+    2                       3                  3                  SELECT * FROM bw_zzy_users LIMIT 3,3
+    3                       6                  3                  SELECT * FROM bw_zzy_users LIMIT 6,3
+    4                       9                  3                  SELECT * FROM bw_zzy_users LIMIT 9,3
+
+    beginIndex = (currentPage-1)*PageSize
+
+3.总共分多少页
+ totalCount(总条数)
+ pageSize(每页显示多少条)
+ a.假设一共有10条数据,每页显示2条
+   totalPage = totalCount / pageSize = 10/2=5
+ b.假设一共有10条数据,每页显示3条
+   totalPage =  totalCount / pageSize +1  = 10/3 +1 = 4
+
+ totalPage = totalCount % pageSize ==0 ? totalCount / pageSize : (totalCount / pageSize + 1)
+
+ 两步合一步
+ totalCount 或 pageSize转换成double
+ totalPage = (int)Math.ceil(totalCount*1.0/pageSize) //取>=结果最小整数

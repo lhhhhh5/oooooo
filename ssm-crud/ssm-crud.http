@@ -1,0 +1,21 @@
+### GET request to example server
+GET https://examples.http-client.intellij.net/get
+    ?generated-in=IntelliJ IDEA
+
+###查
+GET http://localhost:8080/ssm_crud/product/list
+
+
+###保存
+POST localhost:8080/ssm_crud/product/add
+Content-Type: application/json
+
+{
+  "pname": "索尼电视机",
+  "price": 9999,
+  "category_name": "家电"
+}
+
+
+###删除
+DELETE localhost:8080/ssm_crud/product/delete/14

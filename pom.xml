@@ -1,0 +1,157 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <groupId>edu.myweb</groupId>
+  <artifactId>SSM</artifactId>
+  <version>1.0-SNAPSHOT</version>
+  <packaging>pom</packaging>
+
+  <name>SSM</name>
+  <url>http://maven.apache.org</url>
+  <modules>
+    <module>ssm-crud</module>
+      <module>day14-bw-ems/bw-ems</module>
+  </modules>
+
+  <properties>
+    <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+  </properties>
+
+  <dependencies>
+<!--    <dependency>-->
+<!--      <groupId>junit</groupId>-->
+<!--      <artifactId>junit</artifactId>-->
+<!--      <version>4.13.2</version>-->
+<!--      <scope>test</scope>-->
+<!--    </dependency>-->
+<!--    junit5-->
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+        <version>5.12.0</version>
+        <scope>test</scope>
+    </dependency>
+<!--    lombok-->
+    <dependency>
+      <groupId>org.projectlombok</groupId>
+      <artifactId>lombok</artifactId>
+      <version>1.18.34</version>
+    </dependency>
+<!--    mvc-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-webmvc</artifactId>
+      <version>6.2.6</version>
+    </dependency>
+<!--    Spring-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-context</artifactId>
+      <version>6.2.6</version>
+    </dependency>
+<!--    spring-jdbc数据源，mybatis要用到-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-jdbc</artifactId>
+      <version>6.2.6</version>
+    </dependency>
+<!--    spring-tx事务管理-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-tx</artifactId>
+      <version>6.2.6</version>
+    </dependency>
+<!--    spring-test-->
+    <dependency>
+      <groupId>org.springframework</groupId>
+      <artifactId>spring-test</artifactId>
+      <version>6.2.6</version>
+    </dependency>
+<!--    mvc处理json数据依赖-->
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-core</artifactId>
+      <version>2.18.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-annotations</artifactId>
+      <version>2.18.3</version>
+    </dependency>
+    <dependency>
+      <groupId>com.fasterxml.jackson.core</groupId>
+      <artifactId>jackson-databind</artifactId>
+      <version>2.18.3</version>
+    </dependency>
+<!--    springAOP-->
+    <dependency>
+      <groupId>org.aspectj</groupId>
+      <artifactId>aspectjweaver</artifactId>
+      <version>1.9.24</version>
+      <scope>provided</scope>
+    </dependency>
+<!--    tomcat10版本要下面的-->
+    <dependency>
+      <groupId>jakarta.servlet</groupId>
+      <artifactId>jakarta.servlet-api</artifactId>
+      <version>5.0.0</version>
+        <scope>provided</scope>
+    </dependency>
+<!--      数据湖-->
+      <dependency>
+          <groupId>cn.hutool</groupId>
+          <artifactId>hutool-json</artifactId>
+          <version>5.8.25</version> <!-- 版本号可根据需要更新为最新稳定版 -->
+      </dependency>
+
+<!--      &lt;!&ndash; Tomcat 9 必须使用 javax.servlet 包的依赖 &ndash;&gt;-->
+<!--      <dependency>-->
+<!--          <groupId>javax.servlet</groupId> &lt;!&ndash; 包名是 javax.servlet，而非 jakarta.servlet &ndash;&gt;-->
+<!--          <artifactId>javax.servlet-api</artifactId>-->
+<!--          <version>4.0.1</version> &lt;!&ndash; Tomcat 9 支持的 Servlet API 版本（3.1 或 4.0），推荐 4.0.1 &ndash;&gt;-->
+<!--          <scope>provided</scope> &lt;!&ndash; 关键：添加 provided 范围，避免与 Tomcat 自带的 API 冲突 &ndash;&gt;-->
+<!--      </dependency>-->
+<!--    log4j2-->
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-core</artifactId>
+      <version>2.23.1</version>
+    </dependency>
+    <dependency>
+      <groupId>org.apache.logging.log4j</groupId>
+      <artifactId>log4j-api</artifactId>
+      <version>2.23.1</version>
+    </dependency>
+<!--    mybatis-->
+    <dependency>
+      <groupId>org.MyBatis</groupId>
+      <artifactId>mybatis</artifactId>
+      <version>3.5.19</version>
+    </dependency>
+<!--    整合mybatis和spring的依赖-->
+    <dependency>
+      <groupId>org.MyBatis</groupId>
+      <artifactId>mybatis-spring</artifactId>
+      <version>3.0.4</version>
+    </dependency>
+<!--    连接数据库-->
+    <dependency>
+      <groupId>mysql</groupId>
+      <artifactId>mysql-connector-java</artifactId>
+      <version>5.1.48</version>
+    </dependency>
+<!--    连接池-->
+    <dependency>
+      <groupId>com.alibaba</groupId>
+      <artifactId>druid</artifactId>
+      <version>1.2.24</version>
+    </dependency>
+<!--      http status-->
+      <dependency>
+          <groupId>org.apache.httpcomponents</groupId>
+          <artifactId>httpclient</artifactId>
+          <version>4.5.13</version>
+      </dependency>
+  </dependencies>
+</project>

@@ -1,0 +1,45 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+    <!--开启注解扫描,扫描edu.bw包及子包下的类中的注解-->
+    <!--<context:component-scan base-package="edu.bw"/>-->
+
+    <!--加载Property配置文件-->
+    <context:property-placeholder location="classpath:db.properties"/>
+
+    <!--配置数据源(连接池)-->
+    <bean class="com.alibaba.druid.pool.DruidDataSource" id="dataSource">
+        <!-- 通过上面的property-placeholder加载db.properties配置文件,然后${}取值
+         以setter方式注入-->
+        <property name="driverClassName" value="${jdbc.driver}"/>
+        <property name="url" value="${jdbc.url}"/>
+        <property name="username" value="${jdbc.user}"/>
+        <property name="password" value="${jdbc.password}"/>
+    </bean>
+
+    <!--Spring整合Mybatis配置-->
+    <bean class="org.mybatis.spring.SqlSessionFactoryBean" id="sqlSessionFactory">
+        <!--注入数据源-->
+        <property name="dataSource" ref="dataSource"/>
+
+        <!--加载mybatis的全局配置文件SqlMapConfig.xml-->
+        <property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml"/>
+
+        <!--扫描PO类所在包,自动起别名-->
+        <property name="typeAliasesPackage" value="edu.bw.po,edu.bw.dto"/>
+
+        <!--对SqlMapConfig.xml中的settings进行相关配置-->
+        <!--<property name="configurationProperties">-->
+        <!--    <props>-->
+        <!--        <prop key="lazyLoadingEnabled">true</prop>-->
+        <!--    </props>-->
+        <!--</property>-->
+    </bean>
+
+    <!--自动为Mapper接口生成代理,自动加载Mapper的映射文件-->
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="edu.bw.dao"/>
+    </bean>
+</beans>

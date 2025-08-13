@@ -1,0 +1,187 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="edu.bw.dao.UserDao">
+    <update id="update" parameterType="user" >
+        UPDATE bw_zzy_users
+        <set>
+            <if test="username!=null and username !=''">
+                username=#{username}
+            </if>
+            <if test="password!=null and password!=''">
+                ,password=#{password}
+            </if>
+            <if test="name!=null and name!=''">
+                ,`name`=#{name}
+            </if>
+            <if test="sex!=null and sex!=''">
+                ,sex = #{sex}
+            </if>
+            <if test="tel!=null and tel!=''">
+                ,tel=#{tel}
+            </if>
+            <if test="email!=null and email!=''">
+                ,email = #{email}
+            </if>
+            <if test="hiredate!=null">
+                ,hiredate=#{hiredate}
+            </if>
+            <if test="root!=null">
+                ,root=0
+            </if>
+            <if test="deptId !=null and deptId !=''">
+                ,dept_id = #{deptId}
+            </if>
+            <if test="role!=null and role!=''">
+                ,`role`=#{role}
+            </if>
+            --             role是list的时候
+            <!--            <if test="role!=null and role.size()>0">-->
+            <!--                <foreach collection="role" open="(" close=")" separator="," item="one">-->
+            <!--                    #{one}-->
+            <!--                </foreach>-->
+            <!--            </if>-->
+            <if test="status!=null and status!=''">
+                ,status=#{status}
+            </if>
+        </set>
+        WHERE id=#{id}
+    </update>
+
+    <!--   select id
+       from bw_zzy_users
+       where username = ?
+       and password = ?-->
+
+    <select id="userLogin" parameterType="user" resultType="java.lang.Integer">
+        select id
+        from ssm.bw_zzy_users
+        where username = #{username}
+          and password = #{password}
+    </select>
+
+    <select id="selectUserByCondition" parameterType="selectUserByConditionForm" resultType="map">
+    SELECT DISTINCT u.id,
+           u.name,
+           u.sex,
+           u.tel,
+           u.email,
+           u.hiredate,
+           u.root,
+           u.status,
+           (
+               SELECT GROUP_CONCAT(role_name SEPARATOR ", ")
+               FROM bw_zzy_role
+               WHERE JSON_CONTAINS(u.role,CONVERT(id,CHAR))
+                        ) AS roles,
+        d.dept_name AS dept
+    FROM bw_zzy_users u
+    LEFT JOIN bw_zzy_role r ON JSON_CONTAINS(u.role,CONVERT(r.id,CHAR))
+    LEFT JOIN bw_zzy_dept d ON u.dept_id = d.id
+    WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND u.name LIKE #{name}
+        </if>
+        <if test="sex!=null and sex!=''">
+            AND u.sex=#{sex}
+        </if>
+        <if test="role!=null and role!=''">
+            AND r.role_name=#{role}
+        </if>
+        <if test="deptId!=null">
+            AND d.id =#{deptId}
+        </if>
+        <if test="status!=null">
+            AND u.status=#{status}
+        </if>
+    LIMIT #{start},#{length}
+    </select>
+
+
+<!--    统计总数，不需要分页相关的-->
+    <select id="selectUserByConditionCount" resultType="java.lang.Long" parameterType="selectUserByConditionForm">
+        SELECT COUNT(DISTINCT u.id)
+        FROM bw_zzy_users u
+            LEFT JOIN bw_zzy_role r ON JSON_CONTAINS(u.role,CONVERT(r.id,CHAR))
+            LEFT JOIN bw_zzy_dept d ON u.dept_id = d.id
+        WHERE 1=1
+        <if test="name!=null and name!=''">
+            AND u.name LIKE #{name}
+        </if>
+        <if test="sex!=null and sex!=''">
+            AND u.sex=#{sex}
+        </if>
+        <if test="role!=null and role!=''">
+            AND r.role_name=#{role}
+        </if>
+        <if test="deptId!=null">
+            AND d.id =#{deptId}
+        </if>
+        <if test="status!=null">
+            AND u.status=#{status}
+        </if>
+
+    </select>
+    <select id="selectById" resultType="java.util.Map" parameterType="integer">
+        SELECT id,username,password,`name`,sex,tel,email,hiredate,role,dept_id AS deptId,
+               status
+               FROM bw_zzy_users
+        WHERE id = #{userId}
+    </select>
+
+
+    <insert id="insert" parameterType="user">
+        INSERT INTO bw_zzy_users
+        <set>
+            <if test="username!=null and username !=''">
+                username=#{username}
+            </if>
+            <if test="password!=null and password!=''">
+                ,password=#{password}
+            </if>
+            <if test="name!=null and name!=''">
+                ,`name`=#{name}
+            </if>
+            <if test="sex!=null and sex!=''">
+                ,sex = #{sex}
+            </if>
+            <if test="tel!=null and tel!=''">
+                ,tel=#{tel}
+            </if>
+            <if test="email!=null and email!=''">
+                ,email = #{email}
+            </if>
+            <if test="hiredate!=null">
+                ,hiredate=#{hiredate}
+            </if>
+            <if test="root!=null">
+                ,root=0
+            </if>
+            <if test="deptId !=null and deptId !=''">
+                ,dept_id = #{deptId}
+            </if>
+            <if test="role!=null and role!=''">
+                ,`role`=#{role}
+            </if>
+--             role是list的时候
+<!--            <if test="role!=null and role.size()>0">-->
+<!--                <foreach collection="role" open="(" close=")" separator="," item="one">-->
+<!--                    #{one}-->
+<!--                </foreach>-->
+<!--            </if>-->
+            <if test="status!=null and status!=''">
+                ,status=#{status}
+            </if>
+        </set>
+    </insert>
+
+
+    <delete id="deleteUserByIds" parameterType="list" >
+        DELETE  FROM bw_zzy_users
+        WHERE id IN
+        <foreach collection="list" item="id" separator="," close=")" open="(">
+            #{id}
+        </foreach>
+    </delete>
+</mapper>

@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+  Configuration：为根节点，用于定义整个Log4j2的配置。
+  status属性：控制Log4j2框架本身的日志级别，可选值有“trace”, “debug”, “info”, “warn”, “error”, “fatal”。
+  设置为“WARN”表示只输出警告及以上级别的Log4j2内部日志。
+-->
+<Configuration status="WARN">
+    <!--
+      Appenders：定义日志的输出方式、格式和保存策略。常见的Appender类型有Console、File、RollingFile等。
+    -->
+    <Appenders>
+        <!--
+          Console：定义控制台输出的配置。
+          name属性：指定Appender的名称，用于在Loggers中引用。
+          target属性：指定输出目标，通常为“SYSTEM_OUT”表示标准输出（控制台）。
+        -->
+        <Console name="Console" target="SYSTEM_OUT">
+            <!--
+              PatternLayout：定义日志的输出格式。
+              pattern属性：指定日志的输出格式，使用占位符定义日志的各个部分。
+              %d{HH:mm:ss.SSS}：输出时间，精确到毫秒。
+              %t：输出当前线程名称。
+              %-5level：输出日志级别，左对齐并固定输出5个字符，不足时在右边补空格。
+              %logger{36}：输出Logger名称，最多显示36个字符。
+              %msg：输出日志的文本内容。
+              %n：换行符。
+
+              其他常用的占位符：
+              %F：输出日志所在的类文件名。
+              %L：输出日志所在的行号。
+              %M：输出日志所在的方法名。
+              %l：输出日志的完整位置信息，包括类名、方法名、文件名和行号。
+            -->
+            <PatternLayout pattern="%d{HH:mm:ss.SSS} [%t] %-5level %logger{36} - %msg%n" />
+        </Console>
+    </Appenders>
+
+    <!--
+      Loggers：定义日志器的配置，包括根日志器（Root）和自定义日志器。
+      当根据日志名称找不到指定的日志器时，默认使用根日志器（Root）。
+    -->
+    <Loggers>
+        <!--
+          Root：定义根日志器的配置。
+          level属性：指定日志级别，可选值有“TRACE”, “DEBUG”, “INFO”, “WARN”, “ERROR”, “FATAL”, “ALL”, “OFF”。
+          设置为“WARN”表示只输出警告及以上级别的日志。
+          AppenderRef：引用Appender，指定日志输出到哪个Appender。
+        -->
+        <Root level="DEBUG">
+            <AppenderRef ref="Console" />
+        </Root>
+    </Loggers>
+</Configuration>

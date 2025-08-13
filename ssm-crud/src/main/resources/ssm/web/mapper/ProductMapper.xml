@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="ssm.web.mapper.ProductMapper">
+<!--    查询所有商品-->
+    <select id="findAll" resultType="Product">
+        SELECT pid,pname,price,category_name
+        FROM product
+    </select>
+
+    <update id="updateProduct" parameterType="Product" >
+        UPDATE product
+        <set>
+            <if test="pname!=null and pname!=''">
+                pname=#{pname}
+            </if>
+            <if test="price!=null">
+                ,price=#{price}
+            </if>
+            <if test="category_name!=null and category_name!=''">
+                ,category_name=#{category_name}
+            </if>
+        </set>
+        WHERE pid=#{pid}
+    </update>
+
+
+    <delete id="deleteByPid" parameterType="java.lang.Integer">
+        DELETE FROM product
+        WHERE pid=#{pid}
+    </delete>
+
+    <insert id="saveProduct" parameterType="Product">
+        INSERT INTO product(pname,price,category_name)
+        VALUES (#{pname},#{price},#{category_name})
+    </insert>
+</mapper>
